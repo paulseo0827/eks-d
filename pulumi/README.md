@@ -68,8 +68,19 @@ After cloning this repo, from this working directory, run these commands:
     $ KUBECONFIG=./kubeconfig.json kubectl get nodes
     ```
 
+7. When checking node information with the kubectl command, if "Please enter Username:" appears, it can be performed without a problem by recalling the settings from s3 where the EKS Distro setup information is stored.
+    ```bash
+    $ kubectl get node
+      Please enter Username:
+    $ kops export kubecfg --admin --state s3://kops-state-store-1f2f48c
+    $ kubectl get node
+      NAME                                                STATUS   ROLES                  AGE     VERSION
+      ip-172-20-116-192.ap-northeast-2.compute.internal   Ready    node                   2m33s   v1.21.2-eks-1-21-1
+      ip-172-20-58-129.ap-northeast-2.compute.internal    Ready    control-plane,master   3m44s   v1.21.2-eks-1-21-1
+      ip-172-20-60-215.ap-northeast-2.compute.internal    Ready    node                   2m31s   v1.21.2-eks-1-21-1
+      ip-172-20-67-115.ap-northeast-2.compute.internal    Ready    node                   2m26s   v1.21.2-eks-1-21-1
 
-7. From there, feel free to experiment. Make edits and run `pulumi up` to incrementally update your stack.
+8. From there, feel free to experiment. Make edits and run `pulumi up` to incrementally update your stack.
    For example, in order to deploy a Helm chart into your cluster, import the `@pulumi/kubernetes/helm` package,
    add a `Chart` resource that targets the EKS cluster to `index.ts`, and run `pulumi up`. Note that the Helm client
    must be set up in order for the chart to deploy. For more details, see the [Prerequisites](#prerequisites) list.
@@ -101,7 +112,7 @@ After cloning this repo, from this working directory, run these commands:
 
     Once the chart has been deployed, you can find its public, load-balanced endpoint via the Kubernetes Dashboard.
 
-8. Once you've finished experimenting, tear down your stack's resources by destroying and removing it:
+9. Once you've finished experimenting, tear down your stack's resources by destroying and removing it:
 
     ```bash
     $ pulumi destroy --yes
